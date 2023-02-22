@@ -62,22 +62,22 @@ steps:
 - task: SonarCloudAnalyze@1
   displayName: 'Run Sonar Analysis'
 
-# Needs Function App build
-# - task: DotNetCoreCLI@2
-#  condition: eq(variables['Build.SourceBranchName'], 'main')
-#  displayName: 'Build Website Artifacts'
-#  inputs:
-#    command: publish
-#    publishWebProjects: True
-#    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-#    zipAfterPublish: True
 
-# - task: PublishBuildArtifacts@1
-#  condition: eq(variables['Build.SourceBranchName'], 'main')
-#  displayName: 'Publish Website Artifacts'
-#  inputs:
-#    targetPath: '$(Build.ArtifactStagingDirectory)'
-#    artifactName: 'EST.MIT.Event'
+- task: DotNetCoreCLI@2
+  condition: eq(variables['Build.SourceBranchName'], 'main')
+  displayName: 'Build Website Artifacts'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
+
+- task: PublishBuildArtifacts@1
+  condition: eq(variables['Build.SourceBranchName'], 'main')
+  displayName: 'Publish Website Artifacts'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'EST.MIT.Event'
 
 - task: SonarCloudPublish@1
   displayName: 'Publish Sonar Results'
