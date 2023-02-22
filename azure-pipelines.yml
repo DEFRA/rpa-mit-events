@@ -64,16 +64,17 @@ steps:
 
 
 - task: DotNetCoreCLI@2
-  condition: eq(variables['Build.SourceBranchName'], 'main')
+  # condition: eq(variables['Build.SourceBranchName'], 'main')
   displayName: 'Build Website Artifacts'
   inputs:
     command: publish
     publishWebProjects: false
+    projects: '**/EST.MIT.Events.Function.csproj'
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
 - task: PublishBuildArtifacts@1
-  condition: eq(variables['Build.SourceBranchName'], 'main')
+  # condition: eq(variables['Build.SourceBranchName'], 'main')
   displayName: 'Publish Website Artifacts'
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)'
