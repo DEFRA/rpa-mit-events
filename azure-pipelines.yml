@@ -68,15 +68,22 @@ steps:
   displayName: 'Build Website Artifacts'
   inputs:
     command: publish
-    publishWebProjects: False
+    publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: True
+    zipAfterPublish: false
+
+- task: ArchiveFiles@2
+  displayName: "Archive files"
+  inputs:
+    rootFolderOrFile: "$(Build.ArtifactStagingDirectory)"
+    includeRootFolder: false
+    archiveFile: "$(Build.ArtifactStagingDirectory)/build.zip"
 
 - task: PublishBuildArtifacts@1
   condition: eq(variables['Build.SourceBranchName'], 'main')
   displayName: 'Publish Website Artifacts'
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
+    targetPath: '$(Build.ArtifactStagingDirectory)/build.zip'
     artifactName: 'EST.MIT.Event'
 
 - task: SonarCloudPublish@1
