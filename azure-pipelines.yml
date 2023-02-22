@@ -26,7 +26,7 @@ steps:
     projectKey: 'defra_est-mit-event'
     projectName: 'EST.MIT.Event'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll,**/*.cshtml,**/*.css,**/*.js,**/*.json,**/wwwroot/**,**/EST.MIT.Events.Function.Test/**,**/Program.cs
+      sonar.exclusions=**/obj/**,**/*.dll,**/*.cshtml,**/*.css,**/*.js,**/*.json,**/wwwroot/**,**/EST.MIT.Events.Function.Test/**,**/Program.cs,**/Function1.cs
       sonar.test.exclusions=**/obj/**,**/*.dll,**/*.cshtml,**/*.css,**/*.js,**/*.json,**/wwwroot/**,**/EST.MIT.Events.Function.Test/**,**/Function1.cs
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/coverage.opencover.xml
       $(additionalSonarParams)
