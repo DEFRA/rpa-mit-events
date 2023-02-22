@@ -17,6 +17,9 @@ namespace MIT.Events.Function
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
+
+            var test = "hello";
+
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
