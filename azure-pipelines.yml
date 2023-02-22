@@ -64,7 +64,7 @@ steps:
 
 
 - task: DotNetCoreCLI@2
-  # condition: eq(variables['Build.SourceBranchName'], 'main')
+  condition: eq(variables['Build.SourceBranchName'], 'main')
   displayName: 'Build Website Artifacts'
   inputs:
     command: publish
