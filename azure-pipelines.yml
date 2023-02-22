@@ -20,7 +20,7 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis on SonarCloud'
   inputs:
-    SonarCloud: 'SonarCloud EST.MIT.Event'
+    SonarCloud: 'SonarCloud EST.MIT.Events'
     organization: 'defra'
     scannerMode: 'MSBuild'
     projectKey: 'defra_est-mit-event'
