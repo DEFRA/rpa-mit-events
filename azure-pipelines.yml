@@ -69,6 +69,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
+    projects: '**/MIT.Events.Function.csproj'
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
