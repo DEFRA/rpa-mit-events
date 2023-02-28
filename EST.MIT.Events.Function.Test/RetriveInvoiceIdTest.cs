@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using EST.MIT.Events.Function;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EST.MIT.Events.Function.Test
 {
@@ -13,13 +14,17 @@ namespace EST.MIT.Events.Function.Test
         [Fact]
         public void InvoiceIdIsRetrived()
         {
-            int number = 5;
+            int invoiceId = 5;
 
-            var invoiceId = new invoiceId(number);
-            var eventType = new req.Query["eventType"];
+            //var invoiceId = new invoiceId(number);
+            //var eventType = new req.Query["eventType"];
 
-            Assert.Equal()
+            //Assert.Equal(invoiceId)
 
+            var request = GenerateHttpRequest(invoiceId);
+            var response = request.GetResponse(invoiceId);
+
+            Assert.IsType<OkObjectResult>(response);
         }
 
 
