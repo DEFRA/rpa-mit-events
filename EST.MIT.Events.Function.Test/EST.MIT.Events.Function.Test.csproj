@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EST.MIT.Events.Function\MIT.Events.Function.csproj" />
+  </ItemGroup>
+
 </Project>

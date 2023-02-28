@@ -1,30 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using MIT.Events.Function;
 using Xunit;
-using EST.MIT.Events.Function;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EST.MIT.Events.Function.Test
 {
     public class RetriveInvoiceIdTest
     {
+        private readonly ILogger Logger = TestFactory.CreateLogger();
+
         [Fact]
-        public void InvoiceIdIsRetrived()
+        public async void InvoiceIdIsRetrived()
         {
-            int invoiceId = 5;
+            var request = TestFactory.CreateHttpRequest("name", "Sam");
+            var response = (OkObjectResult)await Function1.Run(request, Logger);
 
-            //var invoiceId = new invoiceId(number);
-            //var eventType = new req.Query["eventType"];
-
-            //Assert.Equal(invoiceId)
-
-            var request = GenerateHttpRequest(invoiceId);
-            var response = request.GetResponse(invoiceId);
-
-            Assert.IsType<OkObjectResult>(response);
+            Assert.Equal("Hello, Sam. This HTTP triggered function executed successfully.", response.Value);
         }
 
 
