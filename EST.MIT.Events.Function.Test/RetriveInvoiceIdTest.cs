@@ -13,7 +13,7 @@ namespace EST.MIT.Events.Function.Test
 
         [Fact]
         public async void EventTypeReturned()
-        {         
+        {
             var request = TestFactory.CreateHttpRequest("eventType", "Sam");
             var response = (OkObjectResult)await RetriveInvoiceId.Run(request, Logger);
 
@@ -22,7 +22,7 @@ namespace EST.MIT.Events.Function.Test
             response.StatusCode.Should().Be(200);
         }
 
-          [Fact]
+        [Fact]
         public async void EventTypeNotReturned()
         {
             var context = new DefaultHttpContext();
