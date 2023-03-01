@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+
 namespace MIT.Events.Function
 {
     public static class RetriveInvoiceId
@@ -19,13 +20,12 @@ namespace MIT.Events.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["eventType"];
+            string eventType = req.Query["eventType"];
+            string response = eventType != null ? $"event type {eventType} has been found" : "No event found";
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+            return new OkObjectResult(response);
 
-            return new OkResult();
         }
     }
 }
+
