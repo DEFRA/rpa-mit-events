@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MIT.Events.Function", "EST.MIT.Events.Function\MIT.Events.Function.csproj", "{BB1A23AA-6694-4270-AE6D-41CC71995720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EST.MIT.Events.Function.Test", "EST.MIT.Events.Function.Test\EST.MIT.Events.Function.Test.csproj", "{C63961F9-467F-4776-9563-BB75E250A1E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EST.MIT.Events.Function.Test", "EST.MIT.Events.Function.Test\EST.MIT.Events.Function.Test.csproj", "{C63961F9-467F-4776-9563-BB75E250A1E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
