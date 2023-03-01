@@ -22,7 +22,7 @@ namespace MIT.Events.Function
 
             string eventType = req.Query["eventType"];
             string response = eventType != null ? $"event type {eventType} has been found" : "No event found";
-
+            await Task.Delay(1); //TODO: remove when db access is implemented 
             return new OkObjectResult(response);
 
         }
