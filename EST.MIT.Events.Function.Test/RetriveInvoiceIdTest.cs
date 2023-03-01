@@ -15,7 +15,8 @@ namespace EST.MIT.Events.Function.Test
         public async void EventTypeReturned()
         {
             var request = TestFactory.CreateHttpRequest("eventType", "Sam");
-            var response = (OkObjectResult)await RetriveInvoiceId.Run(request, Logger);
+            var responseAsync = await RetriveInvoiceId.Run(request, Logger);
+            var response = (OkObjectResult)responseAsync;
 
             response.Should().NotBeNull();
             response.Value.Should().Be("event type Sam has been found");
@@ -27,7 +28,8 @@ namespace EST.MIT.Events.Function.Test
         {
             var context = new DefaultHttpContext();
             var request = context.Request;
-            var response = (OkObjectResult)await RetriveInvoiceId.Run(request, Logger);
+            var responseAsync = await RetriveInvoiceId.Run(request, Logger);
+            var response = (OkObjectResult)responseAsync;
 
             response.Should().NotBeNull();
             response.Value.Should().Be("No event found");
