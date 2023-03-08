@@ -34,21 +34,7 @@ namespace MIT.Events.Function
 
         }
 
-        [FunctionName("CreateEvent")]
-        public static void CreateEvent(
-        [QueueTrigger("event", Connection = "QueueConnectionString")] string myQueueItem,
-        [Table("event", Connection = "TableConnectionString")] out MitEvent eventEntity,
-         ILogger log)
-        {
-            log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
-
-            eventEntity = new MitEvent()
-            {
-                PartitionKey = "test",
-                RowKey = Guid.NewGuid().ToString(),
-                Data = myQueueItem
-            };
-        }
+       
 
     }
 }
