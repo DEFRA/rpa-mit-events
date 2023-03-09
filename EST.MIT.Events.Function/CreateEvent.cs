@@ -6,8 +6,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Azure.Data.Tables;
+using System.Text.Json;
 
 namespace MIT.Events.Function
 {
@@ -20,17 +20,9 @@ namespace MIT.Events.Function
         ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
-
-            eventEntity = new MitEvent()
-            {
-                PartitionKey = "test",
-                RowKey = Guid.NewGuid().ToString(),
-                Data = myQueueItem,              
-                EventType = "event",
-            };
+            var goat = JsonSerializer.Deserialize<MitEvent>(myQueueItem);
+            eventEntity = goat;
         }
-
     }
 }
 
-//dynamic data = JsonConvert.DeserializeObject(requestBody);
