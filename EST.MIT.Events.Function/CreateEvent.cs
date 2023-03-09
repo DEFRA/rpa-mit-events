@@ -25,9 +25,12 @@ namespace MIT.Events.Function
             {
                 PartitionKey = "test",
                 RowKey = Guid.NewGuid().ToString(),
-                Data = myQueueItem
+                Data = myQueueItem,              
+                EventType = "event",
             };
         }
 
     }
 }
+
+//dynamic data = JsonConvert.DeserializeObject(requestBody);
