@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EST.MIT.Events.Function.Test
 {
-    public class NullScope : IDisposable
-    {
-        public static NullScope Instance { get; } = new NullScope();
+    //public class NullScope : IDisposable
+    //{
+    //    public static NullScope Instance { get; } = new NullScope();
 
-        private NullScope() { }
+    //    private NullScope() { }
 
-        public void Dispose() { }
-    }
+    //    public void Dispose() { }
+    //}
 
 }

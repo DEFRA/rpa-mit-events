@@ -9,7 +9,7 @@ namespace EST.MIT.Events.Function.Test
 {
     public class RetriveInvoiceIdTest
     {
-        private readonly ILogger Logger = TestFactory.CreateLogger();
+        //private readonly ILogger Logger = TestFactory.CreateLogger();
 
         //[Fact]
         //public async void EventTypeReturned()

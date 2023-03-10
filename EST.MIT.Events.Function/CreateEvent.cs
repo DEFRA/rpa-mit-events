@@ -20,8 +20,8 @@ namespace MIT.Events.Function
         ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
-            var goat = JsonSerializer.Deserialize<MitEvent>(myQueueItem);
-            eventEntity = goat;
+            var mitdata = JsonSerializer.Deserialize<MitEvent>(myQueueItem);
+            eventEntity = mitdata;
         }
     }
 }
