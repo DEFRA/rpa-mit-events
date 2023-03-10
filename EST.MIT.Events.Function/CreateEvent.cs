@@ -11,9 +11,9 @@ using System.Text.Json;
 
 namespace MIT.Events.Function
 {
-    public static class CreateEvent
+    public static class EventManager
     {
-        [FunctionName("CreateEvents")]
+       [FunctionName("CreateEvents")]
         public static void AddQueueItem(
        [QueueTrigger("event", Connection = "QueueConnectionString")] string myQueueItem,
        [Table("event", Connection = "TableConnectionString")] out MitEvent eventEntity,
