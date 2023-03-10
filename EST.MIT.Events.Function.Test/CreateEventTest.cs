@@ -22,6 +22,7 @@ namespace EST.MIT.Events.Function.Test
             var tableEntityMock = new Mock<MitEvent>();
             var queueItem = "test item";
             MitEvent? eventEntity = null;
+            Function.
             Function.CreateEvent(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
