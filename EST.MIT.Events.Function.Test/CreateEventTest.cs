@@ -36,6 +36,18 @@ namespace EST.MIT.Events.Function.Test
         [Fact]
         public void QueryEventWithPartitionandRowKey_ReturnsNotFoundResult_WhenEventEntityDoesNotExist()
         {
+            var loggerMock = new Mock<ILogger>();
+            var httpRequestMock = new Mock<HttpRequest>();
+            var entityMock = default(MockEventEntity);
+            
+            var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}";
+            MitEvent? eventEntity = null;
+            var partitionKey = null;
+            var rowKey = "testRowKey";
+            
+            var result = EventManager.AddQueueItem(httpRequestMock.Object, entityMock, loggerMock.Object, partitionKey, rowKey);
+
+
             //var loggerMock = new Mock<ILogger>();
             //var httpRequestMock = new Mock<HttpRequest>();
             //var tableEntityMock = default(MockEventTableEntity);
