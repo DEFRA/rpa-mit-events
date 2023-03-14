@@ -1,9 +1,16 @@
 {
   "dependencies": {
     "storage1": {
-      "secretStore": null,
+      "secretStore": "LocalSecretsFile",
+      "resourceId": null,
       "type": "storage.emulator",
       "connectionId": "AzureWebJobsStorage"
+    },
+    "secrets1": {
+      "secretStore": null,
+      "resourceId": null,
+      "type": "secrets.user",
+      "connectionId": null
     }
   }
 }

@@ -24,7 +24,7 @@ namespace EST.MIT.Events.Function.Test
             var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}"; 
             MitEvent? eventEntity = null;
           
-            EventManager.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+            CreateEntity.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
             Assert.Equal("testPartitionKey", eventEntity.PartitionKey);
@@ -34,18 +34,21 @@ namespace EST.MIT.Events.Function.Test
         }
 
         [Fact]
-        public void QueryEventWithPartitionandRowKey_ReturnsNotFoundResult_WhenEventEntityDoesNotExist()
+        public void CreateEvent_CreatesNewEventEntityWithOutCorrectPropertiesAndFails()
         {
             var loggerMock = new Mock<ILogger>();
             var httpRequestMock = new Mock<HttpRequest>();
-            var entityMock = default(MockEventEntity);
-            
-            var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}";
+            var queueItem = "{}";
             MitEvent? eventEntity = null;
-            var partitionKey = null;
-            var rowKey = "testRowKey";
-            
-            var result = EventManager.AddQueueItem(httpRequestMock.Object, entityMock, loggerMock.Object, partitionKey, rowKey);
+
+            CreateEntity.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+
+            Assert.NotNull(eventEntity);
+            Assert.NotEqual("testPartitionKey", eventEntity.PartitionKey);
+            Assert.NotEqual("testRowKey", eventEntity.RowKey);
+            Assert.NotEqual("Hello", eventEntity.Data);
+            Assert.NotEqual("Todolo", eventEntity.EventType);
+
 
 
             //var loggerMock = new Mock<ILogger>();

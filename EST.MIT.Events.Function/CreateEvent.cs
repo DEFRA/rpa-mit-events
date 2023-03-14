@@ -5,13 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
+
 using Microsoft.Extensions.Logging;
 using Azure.Data.Tables;
 using System.Text.Json;
 
 namespace MIT.Events.Function
 {
-    public static class EventManager
+    public static class CreateEntity
     {
        [FunctionName("CreateEvents")]
         public static void AddQueueItem(
