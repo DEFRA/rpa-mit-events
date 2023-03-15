@@ -11,7 +11,7 @@ using Azure.Data.Tables;
 
 namespace MIT.Events.Function
 {
-    public static class QTrigger
+    public static class Qtrigger
     {
         [FunctionName("InvoiceId")]
         public static async Task<IActionResult> Run(

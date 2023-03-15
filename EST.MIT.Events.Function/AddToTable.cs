@@ -12,9 +12,9 @@ using System.Text.Json;
 
 namespace MIT.Events.Function
 {
-    public static class CreateEntity
+    public static class AddToTable
     {
-       [FunctionName("CreateEvents")]
+       [FunctionName("CreateEvent")]
         public static void AddQueueItem(
        [QueueTrigger("event", Connection = "QueueConnectionString")] string myQueueItem,
        [Table("event", Connection = "TableConnectionString")] out MitEvent eventEntity,

@@ -24,7 +24,7 @@ namespace EST.MIT.Events.Function.Test
             var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}"; 
             MitEvent? eventEntity = null;
           
-            CreateEntity.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+            AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
             Assert.Equal("testPartitionKey", eventEntity.PartitionKey);
@@ -41,25 +41,15 @@ namespace EST.MIT.Events.Function.Test
             var queueItem = "{}";
             MitEvent? eventEntity = null;
 
-            CreateEntity.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+            AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
-            Assert.NotEqual("testPartitionKey", eventEntity.PartitionKey);
-            Assert.NotEqual("testRowKey", eventEntity.RowKey);
-            Assert.NotEqual("Hello", eventEntity.Data);
-            Assert.NotEqual("Todolo", eventEntity.EventType);
 
-
-
-            //var loggerMock = new Mock<ILogger>();
-            //var httpRequestMock = new Mock<HttpRequest>();
-            //var tableEntityMock = default(MockEventTableEntity);
-            //var partitionKey = "testPartitionKey";
-            //var rowKey = "testRowKey";
-            //var result = Function.QueryEventWithPartitionandRowKey(httpRequestMock.Object, tableEntityMock, loggerMock.Object, partitionKey, rowKey);
-
-            //Assert.NotNull(result);
-            //Assert.IsType<NotFoundResult>(result);
+            Assert.DoesNotContain("testPartitionKey", eventEntity.PartitionKey);
+            Assert.DoesNotContain("testRowKey", eventEntity.RowKey);
+            Assert.DoesNotContain("Hello", eventEntity.Data);
+            Assert.DoesNotContain("Todolo", eventEntity.EventType);
+           
         }
     }
 }
