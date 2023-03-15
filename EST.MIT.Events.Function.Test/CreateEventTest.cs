@@ -44,7 +44,6 @@ namespace EST.MIT.Events.Function.Test
             AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
-
             Assert.DoesNotContain("testPartitionKey", eventEntity.PartitionKey);
             Assert.DoesNotContain("testRowKey", eventEntity.RowKey);
             Assert.DoesNotContain("Hello", eventEntity.Data);
