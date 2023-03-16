@@ -1,6 +1,5 @@
 ﻿using MIT.Events.Function;
 
-
 namespace EST.MIT.Events.Function.Test
 {
     public class MockEventEntity : MitEvent
