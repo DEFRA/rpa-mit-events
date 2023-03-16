@@ -21,9 +21,9 @@ namespace EST.MIT.Events.Function.Test
         {
             var loggerMock = new Mock<ILogger>();
             var tableEntityMock = new Mock<MitEvent>();
-            var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}"; 
+            var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}";
             MitEvent? eventEntity = null;
-          
+
             AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
@@ -48,7 +48,7 @@ namespace EST.MIT.Events.Function.Test
             Assert.DoesNotContain("testRowKey", eventEntity.RowKey);
             Assert.DoesNotContain("Hello", eventEntity.Data);
             Assert.DoesNotContain("Todolo", eventEntity.EventType);
-           
+
         }
     }
 }
