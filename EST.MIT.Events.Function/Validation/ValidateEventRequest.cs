@@ -81,7 +81,8 @@ public static class ValidateEventRequest
                 ""properties""
             ]
         }";
-    public static bool IsValid(string importRequest) {
+    public static bool IsValid(string importRequest)
+    {
         var schema = JSchema.Parse(schemaJson);
         var parseImportRequest = JObject.Parse(importRequest);
         return parseImportRequest.IsValid(schema);

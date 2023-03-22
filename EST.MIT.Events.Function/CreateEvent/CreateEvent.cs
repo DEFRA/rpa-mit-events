@@ -18,10 +18,13 @@ namespace MIT.Events.Function
             log.LogInformation($"C# Queue trigger function processed: {eventRequest}");
             var isValid = ValidateEventRequest.IsValid(eventRequest);
 
-            if(!isValid) {
+            if (!isValid)
+            {
                 log.LogError("No import request received.");
                 eventEntity = null;
-            } else {
+            }
+            else
+            {
                 var eventData = JsonSerializer.Deserialize<EventRequest>(eventRequest);
                 var partitionKey = eventData.Properties.Id;
                 var rowKey = $"{partitionKey}_{DateTime.UtcNow:yyyyMMddHHmmss}";
