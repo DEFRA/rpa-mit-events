@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Azure.Data.Tables;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MIT.Events.Function
 {
-    public static class Qtrigger
+    public static class GetEvents
     {
-        [FunctionName("InvoiceId")]
+        [FunctionName("GetEvents")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = "invoice/events/{invoiceId}")] HttpRequest req,
             [Table("event", Connection = "TableConnectionString")] TableClient tableClient,
@@ -20,18 +21,21 @@ namespace MIT.Events.Function
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var queryResultsFilter = tableClient.Query<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
+            var queryResultsFilter = tableClient.QueryAsync<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
 
-            var pages = queryResultsFilter.AsPages();
-            var firstPage = pages.AsEnumerable().FirstOrDefault();
+            var ListOfEvents = new List<TableEntity>();
 
-            if (firstPage == null || !firstPage.Values.Any())
+            await foreach (var item in queryResultsFilter)
             {
-                log.LogInformation($"Item {invoiceId} not found");
+                ListOfEvents.Add(item);
+            }
+
+            if (ListOfEvents.Count == 0)
+            {
                 return new NotFoundResult();
             }
 
-            return new OkObjectResult(queryResultsFilter);
+            return new OkObjectResult(ListOfEvents);
         }
     }
 }

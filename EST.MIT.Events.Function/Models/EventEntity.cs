@@ -1,6 +1,6 @@
 ﻿
 namespace MIT.Events.Function;
-public class MitEvent
+public class EventEntity
 {
     public string PartitionKey { get; set; }
     public string RowKey { get; set; }

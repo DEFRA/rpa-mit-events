@@ -2,11 +2,11 @@
 
 namespace EST.MIT.Events.Function.Test
 {
-    public class MockEventEntity : MitEvent
+    public class MockEventEntity : EventEntity
     {
-        public string PartitionKey { get; set; }
-        public string RowKey { get; set; }
-        public string Data { get; set; }
-        public string EventType { get; set; }
+        new public string PartitionKey { get; set; } = null!;
+        new public string RowKey { get; set; } = null!;
+        new public string Data { get; set; } = null!;
+        new public string EventType { get; set; } = null!;
     }
 }

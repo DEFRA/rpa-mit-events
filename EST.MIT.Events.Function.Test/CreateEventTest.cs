@@ -6,42 +6,42 @@ using Xunit;
 
 namespace EST.MIT.Events.Function.Test
 {
-
     public class CreateEventTest
     {
         [Fact]
         public void CreateEvent_CreatesNewEventEntityWithCorrectProperties()
         {
             var loggerMock = new Mock<ILogger>();
-            var tableEntityMock = new Mock<MitEvent>();
-            var queueItem = "{\"PartitionKey\":\"testPartitionKey\",\"RowKey\":\"testRowKey\",\"Data\":\"Hello\",\"EventType\":\"Todolo\"}";
-            MitEvent? eventEntity = null;
+            _ = new Mock<EventEntity>();
+            const string queueItem = "{\"name\":\"CreateInvoice\",\"properties\":{\"id\":\"1234567890\",\"checkpoint\":\"est.invoice.web\",\"status\":\"ApprovalRequired\",\"action\":{\"type\":\"approval\",\"message\":\"Invoicerequiresapproval\",\"timestamp\":\"2023-02-14T15:00:00.000Z\",\"data\":{\"invoiceId\":\"123456789\",\"notificationType\":\"approval\",\"emailAddress\":\"test@test.com\",\"requestBy\":\"Geoff\"}}}}";
 
-            AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
 
             Assert.NotNull(eventEntity);
-            Assert.Equal("testPartitionKey", eventEntity.PartitionKey);
-            Assert.Equal("testRowKey", eventEntity.RowKey);
-            Assert.Equal("Hello", eventEntity.Data);
-            Assert.Equal("Todolo", eventEntity.EventType);
+            Assert.Equal("1234567890", eventEntity.PartitionKey);
+            Assert.Equal("approval", eventEntity.EventType);
         }
 
         [Fact]
-        public void CreateEvent_CreatesNewEventEntityWithOutCorrectPropertiesAndFails()
+        public void CreateEvent_CreatesNewEventEntityWithEmptyMessageFails()
         {
             var loggerMock = new Mock<ILogger>();
-            var httpRequestMock = new Mock<HttpRequest>();
-            var queueItem = "{}";
-            MitEvent? eventEntity = null;
+            const string queueItem = "{}";
 
-            AddToTable.AddQueueItem(queueItem, out eventEntity, loggerMock.Object);
+            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
 
-            Assert.NotNull(eventEntity);
-            Assert.DoesNotContain("testPartitionKey", eventEntity.PartitionKey);
-            Assert.DoesNotContain("testRowKey", eventEntity.RowKey);
-            Assert.DoesNotContain("Hello", eventEntity.Data);
-            Assert.DoesNotContain("Todolo", eventEntity.EventType);
+            Assert.Null(eventEntity);
+        }
 
+        [Fact]
+        public void CreateEvent_CreatesNewEventEntityWithIncorrectPropertiesMessageFails()
+        {
+            var loggerMock = new Mock<ILogger>();
+            const string queueItem = "{ 'name':'testPartitionKey' }";
+
+            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
+
+            Assert.Null(eventEntity);
         }
     }
 }

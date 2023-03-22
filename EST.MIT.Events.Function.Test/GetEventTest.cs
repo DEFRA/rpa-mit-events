@@ -13,7 +13,7 @@ using Xunit;
 
 namespace EST.MIT.Events.Function.Test
 {
-    public class QTriggerTest
+    public class GetEventTest
     {
         [Fact]
         public async Task TestRun_OkObjectResultForInvoiceExists()
@@ -26,23 +26,25 @@ namespace EST.MIT.Events.Function.Test
             var entity = new TableEntity() { PartitionKey = invoiceId, RowKey = "rowkey" };
             var pagedValues = new[] { entity };
             var page = Page<TableEntity>.FromValues(pagedValues, default, new Mock<Response>().Object);
-            var pageable = Pageable<TableEntity>.FromPages(new[] { page });
+            var pageable = AsyncPageable<TableEntity>.FromPages(new[] { page });
 
             var mockResponse = new Mock<Response<TableEntity>>();
             mockResponse.Setup(x => x.Value).Returns(entity);
 
-            tableClientMock.Setup(x => x.Query<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(pageable);
-            IActionResult result = await Qtrigger.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
+            tableClientMock.Setup(x => x.QueryAsync<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(
+                pageable
+            );
+            IActionResult result = await GetEvents.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
 
-            Assert.IsType<OkObjectResult>(result);
             var okResult = (OkObjectResult)result;
-            var eventsData = ((Pageable<TableEntity>)okResult.Value).ToArray();
-            Assert.Single(eventsData);
+            var eventsData = (List<TableEntity>)okResult.Value;
+
+            Assert.IsType<List<TableEntity>>(eventsData);
             Assert.Equal(invoiceId, eventsData[0].PartitionKey);
         }
 
         [Fact]
-        public async Task TestRun_OkObjectResultForInvoiceNotExists()
+        public async Task TestRun_NotFoundResultForInvoiceNotExists()
         {
             string invoiceId = "non-existing-invoice";
             var reqMock = new Mock<HttpRequest>();
@@ -50,10 +52,10 @@ namespace EST.MIT.Events.Function.Test
             var log = NullLogger.Instance;
 
             var emptyPage = Page<TableEntity>.FromValues(Array.Empty<TableEntity>(), default, new Mock<Response>().Object);
-            var emptyPageable = Pageable<TableEntity>.FromPages(new[] { emptyPage });
+            var emptyPageable = AsyncPageable<TableEntity>.FromPages(new[] { emptyPage });
 
-            tableClientMock.Setup(x => x.Query<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(emptyPageable);
-            IActionResult result = await Qtrigger.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
+            tableClientMock.Setup(x => x.QueryAsync<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(emptyPageable);
+            IActionResult result = await GetEvents.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
 
             Assert.IsType<NotFoundResult>(result);
         }

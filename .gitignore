@@ -65,6 +65,9 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+Visual\ Studio\ 2022/
+coveragereport/
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
