@@ -1,20 +1,86 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This repository contains the code for consuming events for invoices
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+
+## Azurite
+
+Follow the following guide to setup Azurite:
+
+- [Azurite emulator for local Azure Storage development](https://dev.azure.com/defragovuk/DEFRA-EST/_wiki/wikis/DEFRA-EST/7722/Azurite-emulator-for-local-Azure-Storage-development)
+
+- [Docker](https://dev.azure.com/defragovuk/DEFRA-EST/_wiki/wikis/DEFRA-EST/9601/Azurite-with-Docker)
+
+## Storage
+
+The function app uses Azure Storage for Table and Queue.
+
+The function app requires:
+
+- Queue name: `event`
+- Table name: `event`
+
+## local.settings
+
+```
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "QueueConnectionString": "UseDevelopmentStorage=true",
+        "TableConnectionString": "UseDevelopmentStorage=true"
+    }
+}
+```
+
+## Queue
+
+### Message Example
+
+```
+{
+	"name": "Create Invoice",
+	"properties": {
+		"id": "1234567890",
+		"checkpoint": "est.invoice.web",
+		"status": "ApprovalRequired",
+		"action": {
+			"type": "approval",
+			"message": "Invoice requires approval",
+			"timestamp": "2023-02-14T15:00:00.000Z",
+			"data": {
+                "invoiceId": "123456789",
+                "notificationType": "approval",
+                "emailAddress": "test@test.com",
+                "requestBy": "Geoff"
+              }
+		}
+	}
+}
+```
+
+## HTTP
+
+### Endpoint
+
+`/api/invoice/events/{invoiceId}`
+
+### Response
+
+```
+[{"odata.etag":"W/\"datetime'2023-03-22T11%3A55%3A44.4792631Z'\"","PartitionKey":"1234567890","RowKey":"1234567890_20230322115544","Data":"{\"invoiceId\":\"123456789\",\"notificationType\":\"approval\",\"emailAddress\":\"test@test.com\",\"requestBy\":\"Geoff\"}","EventType":"approval","Timestamp":"2023-03-22T11:55:44.4792631+00:00"}]
+```
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+To run the function:
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+`cd EST.MIT.InvoiceImporter.Function`
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+`func start`
+
+## Useful links
+
+- [gov Notify](https://www.notifications.service.gov.uk/using-notify/api-documentation)
+
+- [Use dependency injection in .NET Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-dotnet-dependency-injection)
