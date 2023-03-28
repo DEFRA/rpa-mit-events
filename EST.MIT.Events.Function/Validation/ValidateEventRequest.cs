@@ -43,8 +43,7 @@ public static class ValidateEventRequest
                     ""required"": [
                         ""type"",
                         ""message"",
-                        ""timestamp"",
-                        ""data""
+                        ""timestamp""
                     ]
                     }
                 },
