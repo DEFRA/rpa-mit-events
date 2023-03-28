@@ -37,27 +37,7 @@ public static class ValidateEventRequest
                         ""type"": ""string""
                         },
                         ""data"": {
-                        ""type"": ""object"",
-                        ""properties"": {
-                            ""invoiceId"": {
-                            ""type"": ""string""
-                            },
-                            ""notificationType"": {
-                            ""type"": ""string""
-                            },
-                            ""emailAddress"": {
-                            ""type"": ""string""
-                            },
-                            ""requestBy"": {
-                            ""type"": ""string""
-                            }
-                        },
-                        ""required"": [
-                            ""invoiceId"",
-                            ""notificationType"",
-                            ""emailAddress"",
-                            ""requestBy""
-                        ]
+                        ""type"": ""string""
                         }
                     },
                     ""required"": [

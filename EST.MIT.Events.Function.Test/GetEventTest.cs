@@ -18,7 +18,7 @@ namespace EST.MIT.Events.Function.Test
         [Fact]
         public async Task TestRun_OkObjectResultForInvoiceExists()
         {
-            string invoiceId = "existing-invoice";
+            const string invoiceId = "existing-invoice";
             var reqMock = new Mock<HttpRequest>();
             var tableClientMock = new Mock<TableClient>();
             var log = NullLogger.Instance;
@@ -46,7 +46,7 @@ namespace EST.MIT.Events.Function.Test
         [Fact]
         public async Task TestRun_NotFoundResultForInvoiceNotExists()
         {
-            string invoiceId = "non-existing-invoice";
+            const string invoiceId = "non-existing-invoice";
             var reqMock = new Mock<HttpRequest>();
             var tableClientMock = new Mock<TableClient>();
             var log = NullLogger.Instance;
