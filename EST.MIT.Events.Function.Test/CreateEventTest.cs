@@ -13,7 +13,7 @@ namespace EST.MIT.Events.Function.Test
         {
             var loggerMock = new Mock<ILogger>();
             _ = new Mock<EventEntity>();
-            const string queueItem = "{\"name\":\"CreateInvoice\",\"properties\":{\"id\":\"1234567890\",\"checkpoint\":\"est.invoice.web\",\"status\":\"ApprovalRequired\",\"action\":{\"type\":\"approval\",\"message\":\"Invoicerequiresapproval\",\"timestamp\":\"2023-02-14T15:00:00.000Z\",\"data\":{\"invoiceId\":\"123456789\",\"notificationType\":\"approval\",\"emailAddress\":\"test@test.com\",\"requestBy\":\"Geoff\"}}}}";
+            const string queueItem = "{\"name\":\"CreateInvoice\",\"properties\":{\"id\":\"1234567890\",\"checkpoint\":\"est.invoice.web\",\"status\":\"ApprovalRequired\",\"action\":{\"type\":\"approval\",\"message\":\"Invoicerequiresapproval\",\"timestamp\":\"2023-02-14T15:00:00.000Z\",\"data\":\"{}\"}}}";
 
             CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
 

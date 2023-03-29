@@ -12,5 +12,5 @@ public class EventAction
     [JsonPropertyName("timestamp")]
     public DateTime Timestamp { get; set; }
     [JsonPropertyName("data")]
-    public Data Data { get; set; }
+    public string Data { get; set; }
 }

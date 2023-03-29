@@ -28,7 +28,7 @@ namespace MIT.Events.Function
                 var eventData = JsonSerializer.Deserialize<EventRequest>(eventRequest);
                 var partitionKey = eventData.Properties.Id;
                 var rowKey = $"{partitionKey}_{DateTime.UtcNow:yyyyMMddHHmmss}";
-                var data = JsonSerializer.Serialize(eventData.Properties.Action.Data);
+                var data = eventData.Properties.Action.Data;
                 var eventType = eventData.Properties.Action.Type;
 
                 eventEntity = new EventEntity
