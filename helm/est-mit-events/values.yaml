@@ -1,0 +1,66 @@
+environment: development
+name: est-mit-events
+namespace: ffc-rpa
+workstream: ffc-rpa
+image: est-mit-events
+
+labels: {}
+
+aadPodIdentity: true
+
+appInsights:
+  key:
+
+azureIdentity:
+  clientID:
+  resourceID:
+
+containerConfigMap:
+  name: est-mit-events-config-map
+
+containerSecret:
+  name: est-mit-events-container-secret
+  type: Opaque
+
+deployment:
+  cpuThreshold: 80
+  memoryThreshold: 80
+  minReadySeconds: 0
+  minReplicas: 1
+  maxReplicas: 1
+  priorityClassName: default
+  replicas: 1
+  restartPolicy: Always
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 120Mi
+  requestCpu: 5m
+  limitMemory: 120Mi
+  limitCpu: 120m
+  port: 3000
+  functionsWorkerRuntime: dotnet
+  azureWebJobsStorage: secret
+
+service:
+  port: 80
+  type: ClusterIP
+
+ingress:
+  class: nginx
+  endpoint: est-mit-events
+  server: value.replaced.from.app.config
+
+livenessProbe:
+  path: /healthz
+  port: 3000
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  path: /healthy
+  port: 3000
+  initialDelaySeconds: 60
+  periodSeconds: 30
+  failureThreshold: 3

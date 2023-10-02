@@ -1,0 +1,12 @@
+# This override file should be used when running this service in isolation
+# to provide dependencies and expose ports for local testing
+
+services:
+  est-mit-events:
+    image: est-mit-events
+    container_name: est-mit-events
+    ports:
+      - "3000:80"
+    volumes:
+      - ./ESTMITEventsFunction:/home/dotnet/EST.MIT.Events.Function
+      - ./ESTMITEventsFunction.Test:/home/dotnet/EST.MIT.Events.Function.Test

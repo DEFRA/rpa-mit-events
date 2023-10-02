@@ -5,12 +5,11 @@
     <UserSecretsId>027a704c-eea1-4819-b8fe-0eac7d26f102</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Azure.Data.Tables" Version="12.8.0" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.1.0" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Tables" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
-    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
+      <PackageReference Include="Azure.Data.Tables" Version="12.8.1" />
+      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues" Version="5.2.0" />
+      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Tables" Version="1.2.0" />
+      <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
+      <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
