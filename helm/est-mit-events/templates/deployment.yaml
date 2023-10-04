@@ -1,0 +1,8 @@
+{{- include "ffc-helm-library.deployment" (list . "est-mit-events.deployment") -}}
+{{- define "est-mit-events.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "est-mit-events.container") }}
+{{- end -}}

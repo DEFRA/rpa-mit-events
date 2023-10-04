@@ -11,8 +11,8 @@ namespace MIT.Events.Function
     {
         [FunctionName("CreateEvent")]
         public static void Run(
-        [QueueTrigger("event", Connection = "QueueConnectionString")] string eventRequest,
-        [Table("event", Connection = "TableConnectionString")] out EventEntity eventEntity,
+        [QueueTrigger("event", Connection = "AzureWebJobsStorage")] string eventRequest,
+        [Table("event", Connection = "AzureWebJobsStorage")] out EventEntity eventEntity,
          ILogger log)
         {
             log.LogInformation($"C# Queue trigger function processed: {eventRequest}");

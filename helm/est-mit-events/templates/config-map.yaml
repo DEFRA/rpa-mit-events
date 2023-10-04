@@ -1,0 +1,7 @@
+{{- include "ffc-helm-library.container-config-map" (list . "est-mit-events.config-map") -}}
+{{- define "est-mit-events.config-map" -}}
+data:
+  PORT: {{ quote .Values.container.port }}
+  APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
+  FUNCTIONS_WORKER_RUNTIME: {{ quote .Values.container.functionsWorkerRuntime }}
+{{- end -}}
