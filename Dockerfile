@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS development
 RUN mkdir -p /home/dotnet/EST.MIT.Events.Function.Test/ /home/dotnet/EST.MIT.Events.Function/
 
 COPY --chown=dotnet:dotnet ./EST.MIT.Events.Function/*.csproj ./EST.MIT.Events.Function/
-RUN dotnet restore ./EST.MIT.Events.Function/MIT.Events.Function.csproj
+RUN dotnet restore ./EST.MIT.Events.Function/EST.MIT.Events.Function.csproj
 
 COPY --chown=dotnet:dotnet ./EST.MIT.Events.Function.Test/*.csproj ./EST.MIT.Events.Function.Test/
 RUN dotnet restore ./EST.MIT.Events.Function.Test/EST.MIT.Events.Function.Test.csproj

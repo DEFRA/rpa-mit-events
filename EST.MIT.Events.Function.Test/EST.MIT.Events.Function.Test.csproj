@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EST.MIT.Events.Function\MIT.Events.Function.csproj" />
+    <ProjectReference Include="..\EST.MIT.Events.Function\EST.MIT.Events.Function.csproj" />
   </ItemGroup>
 
 </Project>
