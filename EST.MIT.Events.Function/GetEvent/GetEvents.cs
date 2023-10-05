@@ -10,29 +10,29 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace MIT.Events.Function
 {
-    public static class GetEvents
-    {
-        [FunctionName("GetEvents")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invoice/events/{invoiceId}")] HttpRequest req,
-            [Table("event", Connection = "AzureWebJobsStorage")] TableClient tableClient,
-            ILogger log, string invoiceId)
-        {
-            var queryResultsFilter = tableClient.QueryAsync<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
+   public static class GetEvents
+   {
+       [FunctionName("GetEvents")]
+       public static async Task<IActionResult> Run(
+           [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invoice/events/{invoiceId}")] HttpRequest req,
+           [Table("event", Connection = "AzureWebJobsStorage")] TableClient tableClient,
+           ILogger log, string invoiceId)
+       {
+           var queryResultsFilter = tableClient.QueryAsync<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
 
-            var ListOfEvents = new List<TableEntity>();
+           var ListOfEvents = new List<TableEntity>();
 
-            await foreach (var item in queryResultsFilter)
-            {
-                ListOfEvents.Add(item);
-            }
+           await foreach (var item in queryResultsFilter)
+           {
+               ListOfEvents.Add(item);
+           }
 
-            if (ListOfEvents.Count == 0)
-            {
-                return new NotFoundResult();
-            }
+           if (ListOfEvents.Count == 0)
+           {
+               return new NotFoundResult();
+           }
 
-            return new OkObjectResult(ListOfEvents);
-        }
-    }
+           return new OkObjectResult(ListOfEvents);
+       }
+   }
 }
