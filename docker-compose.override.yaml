@@ -3,10 +3,10 @@
 
 services:
   est-mit-events:
-    image: est-mit-events
-    container_name: est-mit-events
+    image: est-mit-events-development
+    container_name: est-mit-events-development
     ports:
-      - "3000:80"
+      - "3001:80"
     volumes:
       - ./ESTMITEventsFunction:/home/dotnet/EST.MIT.Events.Function
       - ./ESTMITEventsFunction.Test:/home/dotnet/EST.MIT.Events.Function.Test
