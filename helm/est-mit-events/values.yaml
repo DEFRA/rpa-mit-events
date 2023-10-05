@@ -39,7 +39,6 @@ container:
   limitMemory: 120Mi
   limitCpu: 120m
   port: 3000
-  functionsWorkerRuntime: dotnet
   azureWebJobsStorage: secret
 
 service:
