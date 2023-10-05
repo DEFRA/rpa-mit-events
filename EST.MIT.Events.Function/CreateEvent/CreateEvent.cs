@@ -11,34 +11,36 @@ namespace MIT.Events.Function
     {
         [FunctionName("CreateEvent")]
         public static void Run(
-        [QueueTrigger("event", Connection = "AzureWebJobsStorage")] string eventRequest,
-        [Table("event", Connection = "AzureWebJobsStorage")] out EventEntity eventEntity,
+      //  [QueueTrigger("event", Connection = "AzureWebJobsStorage")] string eventRequest,
+      //  [Table("event", Connection = "AzureWebJobsStorage")] out EventEntity eventEntity,
          ILogger log)
         {
-            log.LogInformation($"C# Queue trigger function processed: {eventRequest}");
-            var isValid = ValidateEventRequest.IsValid(eventRequest);
+            log.LogInformation($"C# Queue trigger function");
 
-            if (!isValid)
-            {
-                log.LogError("No import request received.");
-                eventEntity = null;
-            }
-            else
-            {
-                var eventData = JsonSerializer.Deserialize<EventRequest>(eventRequest);
-                var partitionKey = eventData.Properties.Id;
-                var rowKey = $"{partitionKey}_{DateTime.UtcNow:yyyyMMddHHmmss}";
-                var data = eventData.Properties.Action.Data;
-                var eventType = eventData.Properties.Action.Type;
+           // log.LogInformation($"C# Queue trigger function processed: {eventRequest}");
+            //var isValid = ValidateEventRequest.IsValid(eventRequest);
 
-                eventEntity = new EventEntity
-                {
-                    PartitionKey = partitionKey,
-                    RowKey = rowKey,
-                    Data = data,
-                    EventType = eventType
-                };
-            }
+            //if (!isValid)
+            //{
+            //    log.LogError("No import request received.");
+            //    eventEntity = null;
+            //}
+            //else
+            //{
+            //    var eventData = JsonSerializer.Deserialize<EventRequest>(eventRequest);
+            //    var partitionKey = eventData.Properties.Id;
+            //    var rowKey = $"{partitionKey}_{DateTime.UtcNow:yyyyMMddHHmmss}";
+            //    var data = eventData.Properties.Action.Data;
+            //    var eventType = eventData.Properties.Action.Type;
+
+            //    eventEntity = new EventEntity
+            //    {
+            //        PartitionKey = partitionKey,
+            //        RowKey = rowKey,
+            //        Data = data,
+            //        EventType = eventType
+            //    };
+            //}
         }
     }
 }
