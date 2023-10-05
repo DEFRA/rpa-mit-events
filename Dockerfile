@@ -18,6 +18,7 @@ FROM mcr.microsoft.com/azure-functions/dotnet:4
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
+ENV ASPNETCORE_URLS=http://+:8080
 ENV FUNCTIONS_WORKER_RUNTIME=dotnet
 COPY --from=development ["/home/site/wwwroot", "/home/site/wwwroot"]
 
@@ -33,5 +34,6 @@ FROM mcr.microsoft.com/azure-functions/dotnet:4
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
+ENV ASPNETCORE_URLS=http://+:8080
 ENV FUNCTIONS_WORKER_RUNTIME=dotnet
 COPY --from=production ["/home/site/wwwroot", "/home/site/wwwroot"]
