@@ -3,7 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <UserSecretsId>027a704c-eea1-4819-b8fe-0eac7d26f102</UserSecretsId>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
   </PropertyGroup>
   <ItemGroup>
       <PackageReference Include="Azure.Data.Tables" Version="12.8.1" />
