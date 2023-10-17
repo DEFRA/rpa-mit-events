@@ -15,7 +15,7 @@ namespace MIT.Events.Function
        [FunctionName("GetEvents")]
        public static async Task<IActionResult> Run(
            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "invoice/events/{invoiceId}")] HttpRequest req,
-           [Table("event", Connection = "AzureWebJobsStorage")] TableClient tableClient,
+           [Table("%EventTableName%", Connection = "TableConnectionString")] TableClient tableClient,
            ILogger log, string invoiceId)
        {
            var queryResultsFilter = tableClient.QueryAsync<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
