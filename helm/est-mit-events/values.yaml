@@ -40,6 +40,12 @@ container:
   limitCpu: 120m
   port: 3000
   azureWebJobsStorage: secret
+  queueConnectionString__queueServiceUri: value-from-app-config-service
+  queueConnectionString__credential: value-from-app-config-service
+  tableConnectionString__tableServiceUri: value-from-app-config-service
+  tableConnectionString__credential: value-from-app-config-service
+  eventQueueName: value-from-app-config-service
+  eventTableName: value-from-app-config-service
 
 service:
   port: 80

@@ -1,4 +1,4 @@
-# Introduction 
+# Introduction
 This repository contains the code for consuming events for invoices
 
 # Getting Started
