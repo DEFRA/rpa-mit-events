@@ -1,16 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
     <UserSecretsId>027a704c-eea1-4819-b8fe-0eac7d26f102</UserSecretsId>
     <Version>1.0.12</Version>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
       <PackageReference Include="Azure.Data.Tables" Version="12.8.1" />
-      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues" Version="5.2.0" />
-      <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Tables" Version="1.2.0" />
+      <PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.19.0" />
+      <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.12.0" />
+      <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.15.1" OutputItemType="Analyzer" />
+      <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http" Version="3.1.0" />
+      <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Tables" Version="1.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
       <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
-      <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
