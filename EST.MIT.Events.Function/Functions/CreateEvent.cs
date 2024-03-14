@@ -6,29 +6,31 @@ using Microsoft.Extensions.Logging;
 using Azure.Messaging.ServiceBus;
 using Events.Function.Models;
 using Events.Function.Validation;
-using EST.MIT.Events.Services;
+using MIT.Events.Function.Services;
 
 namespace MIT.Events.Function;
 
 public class CreateEvent
 {
-    private readonly EventTableService _eventTableService;
+    private readonly IEventTableService _eventTableService;
+    private readonly ILogger<CreateEvent> _logger;
 
-    public CreateEvent(EventTableService eventTableService)
+    public CreateEvent(IEventTableService eventTableService, ILogger<CreateEvent> logger)
     {
         _eventTableService = eventTableService;
+        _logger = logger;
     }
 
     [Function("CreateEvent")]
-    public async Task Run([ServiceBusTrigger("%EventQueueName%", Connection = "QueueConnectionString")] ServiceBusReceivedMessage message, ILogger log)
+    public async Task Run([ServiceBusTrigger("%EventQueueName%", Connection = "QueueConnectionString")] ServiceBusReceivedMessage message)
     {
         var eventRequest = message.Body.ToString();
-        log.LogInformation($"C# Queue trigger function processed: {eventRequest}");
+        _logger.LogInformation($"C# Queue trigger function processed: {eventRequest}");
         var isValid = ValidateEventRequest.IsValid(eventRequest);
 
         if (!isValid)
         {
-            log.LogError("No import request received.");
+            _logger.LogError("No import request received.");
             return;
         }
         

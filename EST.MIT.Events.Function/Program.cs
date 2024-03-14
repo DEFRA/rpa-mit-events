@@ -1,9 +1,9 @@
 using System;
 using System.IO;
-using EST.MIT.Events.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MIT.Events.Function.Services;
 
 var host = new HostBuilder()
     .ConfigureAppConfiguration((hostContext, config) =>
@@ -20,11 +20,7 @@ var host = new HostBuilder()
     .ConfigureServices(services =>
     {
         Console.WriteLine("Startup.ConfigureServices() called");
-        // var serviceProvider = services.BuildServiceProvider();
-        // var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
-        services.AddSingleton<IEventTableService, EventTableService>();
-
+        services.AddScoped<IEventTableService, EventTableService>();
     })
     .Build();
 

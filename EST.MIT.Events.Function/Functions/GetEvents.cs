@@ -2,24 +2,26 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using EST.MIT.Events.Services;
+using MIT.Events.Function.Services;
 
 namespace MIT.Events.Function;
 
 public class GetEvents
 {
-    private readonly EventTableService _eventTableService;
+    private readonly IEventTableService _eventTableService;
+    private readonly ILogger<GetEvents> _logger;
 
-    public GetEvents(EventTableService eventTableService)
+    public GetEvents(IEventTableService eventTableService, ILogger<GetEvents> logger)
     {
         _eventTableService = eventTableService;
+        _logger = logger;
     }
 
     [Function("GetEvents")]
     public async Task<HttpResponseData> Run(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "invoice/events/{invoiceId}")] HttpRequestData req, ILogger log, string invoiceId)
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "invoice/events/{invoiceId}")] HttpRequestData req, string invoiceId)
     {
-        log.LogInformation($"C# Queue trigger function processed: {invoiceId} ");
+        _logger.LogInformation($"C# Queue trigger function processed: {invoiceId} ");
         var queryResultsFilter = _eventTableService.GetEventsAsync(invoiceId);
 
         if(queryResultsFilter == null)

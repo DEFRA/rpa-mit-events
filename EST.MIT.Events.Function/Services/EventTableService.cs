@@ -1,16 +1,14 @@
-
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Azure;
 using Azure.Data.Tables;
-using Microsoft.Extensions.Configuration;
-using MIT.Events.Function;
 
-namespace EST.MIT.Events.Services;
+namespace MIT.Events.Function.Services;
 
 public interface IEventTableService
 {
     Task AddEventAsync(EventEntity eventEntity);
+    AsyncPageable<TableEntity> GetEventsAsync(string invoiceId);
 }
 
 public class EventTableService : IEventTableService
@@ -27,5 +25,4 @@ public class EventTableService : IEventTableService
 
     public async Task AddEventAsync(EventEntity eventEntity) => await _tableClient.AddEntityAsync(eventEntity);
     public AsyncPageable<TableEntity> GetEventsAsync(string invoiceId) => _tableClient.QueryAsync<TableEntity>(filter: $"PartitionKey eq '{invoiceId}'");
-
 }
