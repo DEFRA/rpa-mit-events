@@ -1,63 +1,58 @@
-﻿using Azure;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Logging;
+using Azure;
 using Azure.Data.Tables;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
+using EST.MIT.Events.Services;
+using FluentAssertions;
 using MIT.Events.Function;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace EST.MIT.Events.Function.Test
+namespace EST.MIT.Events.Function.Test;
+
+public class GetEventsTests
 {
-    public class GetEventTest
+    private readonly Mock<EventTableService> _mockEventTableService;
+    private readonly Mock<HttpRequestData> _mockHttpRequest;
+    private readonly Mock<ILogger> _mockLogger;
+
+    public GetEventsTests()
     {
-        [Fact]
-        public async Task TestRun_OkObjectResultForInvoiceExists()
-        {
-            const string invoiceId = "existing-invoice";
-            var reqMock = new Mock<HttpRequest>();
-            var tableClientMock = new Mock<TableClient>();
-            var log = NullLogger.Instance;
+        _mockEventTableService = new Mock<EventTableService>();
+        _mockHttpRequest = new Mock<HttpRequestData>();
+        _mockLogger = new Mock<ILogger>();
+    }
 
-            var entity = new TableEntity() { PartitionKey = invoiceId, RowKey = "rowkey" };
-            var pagedValues = new[] { entity };
-            var page = Page<TableEntity>.FromValues(pagedValues, default, new Mock<Response>().Object);
-            var pageable = AsyncPageable<TableEntity>.FromPages(new[] { page });
+    [Fact]
+    public async Task Run_ShouldExecuteSuccessfully()
+    {
+        var invoiceId = "testInvoiceId";
+        var expectedEvents = AsyncPageable<TableEntity>.FromPages(new[] { Page<TableEntity>.FromValues(new[] { new TableEntity() }, null, new Mock<Response>().Object) });
+        _mockEventTableService.Setup(x => x.GetEventsAsync(invoiceId)).Returns(expectedEvents);
+        _mockHttpRequest.Setup(x => x.CreateResponse(HttpStatusCode.OK));
 
-            var mockResponse = new Mock<Response<TableEntity>>();
-            mockResponse.Setup(x => x.Value).Returns(entity);
+        var getEvents = new GetEvents(_mockEventTableService.Object);
+        var result = await getEvents.Run(_mockHttpRequest.Object, _mockLogger.Object, invoiceId);
 
-            tableClientMock.Setup(x => x.QueryAsync<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(
-                pageable
-            );
-            IActionResult result = await GetEvents.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        _mockEventTableService.Verify(x => x.GetEventsAsync(invoiceId), Times.Once);
+    }
 
-            var okResult = (OkObjectResult)result;
-            var eventsData = (List<TableEntity>)okResult.Value;
+    [Fact]
+    public async Task Run_ShouldReturnNotFound()
+    {
+        var invoiceId = "testInvoiceId";
+        var emptyEvents = AsyncPageable<TableEntity>.FromPages(new[] { Page<TableEntity>.FromValues(Array.Empty<TableEntity>(), default, new Mock<Response>().Object) });
+        _mockEventTableService.Setup(x => x.GetEventsAsync(invoiceId)).Returns(emptyEvents);
+        _mockHttpRequest.Setup(x => x.CreateResponse(HttpStatusCode.NotFound));
 
-            Assert.IsType<List<TableEntity>>(eventsData);
-            Assert.Equal(invoiceId, eventsData[0].PartitionKey);
-        }
+        var getEvents = new GetEvents(_mockEventTableService.Object);
+        var result = await getEvents.Run(_mockHttpRequest.Object, _mockLogger.Object, invoiceId);
 
-        [Fact]
-        public async Task TestRun_NotFoundResultForInvoiceNotExists()
-        {
-            const string invoiceId = "non-existing-invoice";
-            var reqMock = new Mock<HttpRequest>();
-            var tableClientMock = new Mock<TableClient>();
-            var log = NullLogger.Instance;
-
-            var emptyPage = Page<TableEntity>.FromValues(Array.Empty<TableEntity>(), default, new Mock<Response>().Object);
-            var emptyPageable = AsyncPageable<TableEntity>.FromPages(new[] { emptyPage });
-
-            tableClientMock.Setup(x => x.QueryAsync<TableEntity>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<IEnumerable<string>>(), default)).Returns(emptyPageable);
-            IActionResult result = await GetEvents.Run(reqMock.Object, tableClientMock.Object, log, invoiceId);
-
-            Assert.IsType<NotFoundResult>(result);
-        }
+        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        _mockEventTableService.Verify(x => x.GetEventsAsync(invoiceId), Times.Once);
     }
 }

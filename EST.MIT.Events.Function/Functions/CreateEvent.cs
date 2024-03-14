@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Azure.Messaging.ServiceBus;
 using Events.Function.Models;
 using Events.Function.Validation;
-using Azure.Data.Tables;
 using EST.MIT.Events.Services;
 
 namespace MIT.Events.Function;
