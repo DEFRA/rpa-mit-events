@@ -24,9 +24,10 @@ public class CreateEvent
     [Function("CreateEvent")]
     public async Task Run([ServiceBusTrigger("%EventQueueName%", Connection = "QueueConnectionString")] ServiceBusReceivedMessage message)
     {
-        var eventRequest = message.Body.ToString();
-        _logger.LogInformation($"C# Queue trigger function processed: {eventRequest}");
-        var isValid = ValidateEventRequest.IsValid(eventRequest);
+        var decodedMessage = message.Body.ToString().DecodeMessage();
+
+        _logger.LogInformation($"C# Queue trigger function processed: {decodedMessage}");
+        var isValid = ValidateEventRequest.IsValid(decodedMessage);
 
         if (!isValid)
         {
@@ -34,7 +35,7 @@ public class CreateEvent
             return;
         }
         
-        var eventData = JsonSerializer.Deserialize<EventRequest>(eventRequest);
+        var eventData = JsonSerializer.Deserialize<EventRequest>(decodedMessage);
         var eventEntity = new EventEntity
         {
             PartitionKey = eventData.Properties.Id,
