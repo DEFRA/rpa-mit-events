@@ -1,3 +1,0 @@
-{{- include "ffc-helm-library.azure-ingress" (list . "est-mit-events.ingress") -}}
-{{- define "est-mit-events.ingress" -}}
-{{- end -}}

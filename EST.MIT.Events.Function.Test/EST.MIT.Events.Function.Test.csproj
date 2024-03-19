@@ -26,5 +26,8 @@
   <ItemGroup>
     <ProjectReference Include="..\EST.MIT.Events.Function\EST.MIT.Events.Function.csproj" />
   </ItemGroup>
-
+    <PropertyGroup>
+        <!-- Exclude the project from analysis -->
+        <SonarQubeExclude>true</SonarQubeExclude>
+    </PropertyGroup>
 </Project>

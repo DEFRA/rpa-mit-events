@@ -1,0 +1,11 @@
+namespaceQueues:
+ - name: rpa-mit-events
+   roleAssignments:
+     - roleName: 'QueueReceiver'
+     - owner: 'yes'
+storageAccounts:
+ - name: mit 
+   tables:  
+     - name: rpamitevents
+       roleAssignments:
+         - roleName: 'TableDataContributor'
