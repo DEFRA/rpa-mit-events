@@ -42,9 +42,9 @@ extends:
     deployFromFeature: ${{ parameters.deployFromFeature }}
     appBuildConfig:
       appFrameworkType: "dotnet"    
-      projectPath: "./RPA.MIT.Notification.Function/RPA.MIT.Notification.Function.csproj"
-      testProjectPath: "./RPA.MIT.Notification.Function.Tests/RPA.MIT.Notification.Function.Tests.csproj"
-      manifestPath: "./RPA.MIT.Notification.Function/obj/project.assets.json"
+      projectPath: "./EST.MIT.Events.Function/EST.MIT.Events.Function.csproj"
+      testProjectPath: "./EST.MIT.Events.Function.Test/EST.MIT.Events.Function.Test.csproj"
+      manifestPath: "./EST.MIT.Events.Function/obj/project.assets.json"
       frameworkVersion: "6.x"
       imageRepoName: "rpa-mit-events"
     appTestConfig:
