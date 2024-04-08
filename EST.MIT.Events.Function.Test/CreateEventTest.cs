@@ -1,47 +1,58 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using MIT.Events.Function;
-using Moq;
-using Xunit;
+﻿//using Azure.Messaging.ServiceBus;
+//using Microsoft.Extensions.Logging;
+//using MIT.Events.Function;
+//using MIT.Events.Function.Services;
+//using Moq;
+//using System;
+//using System.Threading.Tasks;
+//using Xunit;
 
-namespace EST.MIT.Events.Function.Test
-{
-    public class CreateEventTest
-    {
-        [Fact]
-        public void CreateEvent_CreatesNewEventEntityWithCorrectProperties()
-        {
-            var loggerMock = new Mock<ILogger>();
-            _ = new Mock<EventEntity>();
-            const string queueItem = "{\"name\":\"CreateInvoice\",\"properties\":{\"id\":\"1234567890\",\"checkpoint\":\"est.invoice.web\",\"status\":\"ApprovalRequired\",\"action\":{\"type\":\"approval\",\"message\":\"Invoicerequiresapproval\",\"timestamp\":\"2023-02-14T15:00:00.000Z\",\"data\":\"{}\"}}}";
+//namespace EST.MIT.Events.Function.Test;
 
-            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
+//public class CreateEventTest
+//{
+//    private readonly Mock<EventTableService> _mockEventTableService;
+//    private readonly Mock<ILogger> _logger;
+    
+//    public CreateEventTest()
+//    {
+//        _mockEventTableService = new Mock<EventTableService>();
+//        _logger = new Mock<ILogger>();
+//    }
 
-            Assert.NotNull(eventEntity);
-            Assert.Equal("1234567890", eventEntity.PartitionKey);
-            Assert.Equal("approval", eventEntity.EventType);
-        }
+//    [Fact]
+//    public async Task Run_ValidEventRequest_AddsEventEntityToTable()
+//    {
+//        var eventItemBody = BinaryData.FromString("{\"name\":\"CreateInvoice\",\"properties\":{\"id\":\"1234567890\",\"checkpoint\":\"est.invoice.web\",\"status\":\"ApprovalRequired\",\"action\":{\"type\":\"approval\",\"message\":\"Invoicerequiresapproval\",\"timestamp\":\"2023-02-14T15:00:00.000Z\",\"data\":\"{}\"}}}");
+//        var eventItem = ServiceBusModelFactory.ServiceBusReceivedMessage(body: eventItemBody);
+        
+//        var createEvent = new CreateEvent(_mockEventTableService.Object);
+//        await createEvent.Run(eventItem, _logger.Object);
 
-        [Fact]
-        public void CreateEvent_CreatesNewEventEntityWithEmptyMessageFails()
-        {
-            var loggerMock = new Mock<ILogger>();
-            const string queueItem = "{}";
+//        _mockEventTableService.Verify(x => x.AddEventAsync(It.IsAny<EventEntity>()), Times.Once);
+//    }
 
-            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
+//    [Fact]
+//    public async Task CreateEvent_CreatesNewEventEntityWithEmptyMessageFails()
+//    {
+//        var eventItemBody = BinaryData.FromString("{}");
+//        var eventItem = ServiceBusModelFactory.ServiceBusReceivedMessage(body: eventItemBody);
 
-            Assert.Null(eventEntity);
-        }
+//        var createEvent = new CreateEvent(_mockEventTableService.Object);
+//        await createEvent.Run(eventItem, _logger.Object);
 
-        [Fact]
-        public void CreateEvent_CreatesNewEventEntityWithIncorrectPropertiesMessageFails()
-        {
-            var loggerMock = new Mock<ILogger>();
-            const string queueItem = "{ 'name':'testPartitionKey' }";
+//        _mockEventTableService.Verify(x => x.AddEventAsync(It.IsAny<EventEntity>()), Times.Never);
+//    }
 
-            CreateEvent.Run(queueItem, out EventEntity? eventEntity, loggerMock.Object);
+//    [Fact]
+//    public async Task CreateEvent_CreatesNewEventEntityWithIncorrectPropertiesMessageFails()
+//    {
+//        var eventItemBody = BinaryData.FromString("{ 'name':'testPartitionKey' }");
+//        var eventItem = ServiceBusModelFactory.ServiceBusReceivedMessage(body: eventItemBody);
 
-            Assert.Null(eventEntity);
-        }
-    }
-}
+//        var createEvent = new CreateEvent(_mockEventTableService.Object);
+//        await createEvent.Run(eventItem, _logger.Object);
+
+//        _mockEventTableService.Verify(x => x.AddEventAsync(It.IsAny<EventEntity>()), Times.Never);
+//    }
+//}

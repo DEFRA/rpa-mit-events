@@ -1,10 +1,10 @@
 services:
-  est-mit-events:
+  rpa-mit-events:
     build:
       context: .
       target: development
-    image: est-mit-events
-    container_name: est-mit-events-test
+    image: rpa-mit-events
+    container_name: rpa-mit-events-test
     entrypoint: dotnet test ./EST.MIT.Events.Function.Test/EST.MIT.Events.Function.Test.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput='./test-output/'
     volumes:
       - ./test-output:/home/dotnet/ESTMITEventsFunction.Test/test-output

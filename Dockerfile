@@ -1,5 +1,5 @@
 # development
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS development
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS development
 
 RUN mkdir -p /home/dotnet/EST.MIT.Events.Function.Test/ /home/dotnet/EST.MIT.Events.Function/
 
@@ -14,26 +14,22 @@ RUN cd /src && \
     mkdir -p /home/site/wwwroot && \
     dotnet publish *.csproj --output /home/site/wwwroot
 
-FROM mcr.microsoft.com/azure-functions/dotnet:4
+FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
-ENV ASPNETCORE_URLS=http://+:3000
-ENV FUNCTIONS_WORKER_RUNTIME=dotnet
 COPY --from=development ["/home/site/wwwroot", "/home/site/wwwroot"]
 
 # production
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS production
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS production
 
 COPY ./EST.MIT.Events.Function /src
 RUN cd /src && \
     mkdir -p /home/site/wwwroot && \
     dotnet publish *.csproj --output /home/site/wwwroot
 
-FROM mcr.microsoft.com/azure-functions/dotnet:4
+FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 
-ENV ASPNETCORE_URLS=http://+:3000
-ENV FUNCTIONS_WORKER_RUNTIME=dotnet
 COPY --from=production ["/home/site/wwwroot", "/home/site/wwwroot"]

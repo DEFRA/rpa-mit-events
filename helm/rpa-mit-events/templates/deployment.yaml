@@ -1,0 +1,8 @@
+{{- include "adp-helm-library.deployment" (list . "rpa-mit-events.deployment") -}}
+{{- define "rpa-mit-events.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "adp-helm-library.container" (list . "rpa-mit-events.container") }}
+{{- end -}}
