@@ -9,6 +9,8 @@ local.settings.json
 *.user
 *.userosscache
 *.sln.docstates
+**secrets.json
+.vscode
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
