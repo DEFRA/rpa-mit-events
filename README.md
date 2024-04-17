@@ -1,8 +1,12 @@
+# est-mit-events
+
 This repository contains an azure function with Service Bus and a HTTP Triggers, the messages to the service bus are sent via other services, it's use is as a method of logging what actions have taken place on a manual invoice.
 
 ## Requirements
 
--  .NET 8 SDK - amend as needed for your distro
+Amend as needed for your distribution, this assumes you are using windows with WSL.
+
+-  .NET 8 SDK
 ```bash
 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
@@ -15,7 +19,8 @@ sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
 sudo apt-get install azure-functions-core-tools-4
 ```
 
-- Docker
+- [Docker](https://docs.docker.com/desktop/install/linux-install/)
+- Service Bus Queue
 
 ---
 ## Local Setup
@@ -45,7 +50,7 @@ Once this is done run the following command to add the projects user secrets
 cat secrets.json | dotnet user-secrets set
 ```
 
-These values can also be added to the local settings file.
+These values can also be added to the local settings file, but the preferred method is via user secrets.
 
 ### Create emulated table storage
 
