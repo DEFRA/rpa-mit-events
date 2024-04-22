@@ -20,11 +20,18 @@ Amend as needed for your distribution, this assumes you are using windows with W
     ```
 </details>
 
-- Azure Functions Core Tools
+- <details>
+    <summary> Azure Functions Core Tools </summary>
+    
 
-```bash
-sudo apt-get install azure-functions-core-tools-4
-```
+    #### Basic instructions for installing Azure Functions Core Tools on a debian based system.
+  
+    Amend as needed for your distribution.
+
+    ```bash
+    sudo apt-get install azure-functions-core-tools-4
+    ```
+</details>
 
 - [Docker](https://docs.docker.com/desktop/install/linux-install/)
 - Service Bus Queue
