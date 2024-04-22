@@ -8,7 +8,6 @@ Amend as needed for your distribution, this assumes you are using windows with W
 - <details>
     <summary> .NET 8 SDK </summary>
     
-
     #### Basic instructions for installing the .NET 8 SDK on a debian based system.
   
     Amend as needed for your distribution.
@@ -23,11 +22,6 @@ Amend as needed for your distribution, this assumes you are using windows with W
 - <details>
     <summary> Azure Functions Core Tools </summary>
     
-
-    #### Basic instructions for installing Azure Functions Core Tools on a debian based system.
-  
-    Amend as needed for your distribution.
-
     ```bash
     sudo apt-get install azure-functions-core-tools-4
     ```
