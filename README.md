@@ -2,6 +2,7 @@
 
 This repository contains an azure function with Service Bus and a HTTP Triggers, the messages to the service bus are sent via other services, it's use is as a method of logging what actions have taken place on a manual invoice.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=coverage)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=est-mit-events)
 ## Requirements
 
 Amend as needed for your distribution, this assumes you are using windows with WSL.
