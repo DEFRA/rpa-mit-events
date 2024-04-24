@@ -45,7 +45,7 @@ extends:
       projectPath: "./EST.MIT.Events.Function/EST.MIT.Events.Function.csproj"
       testProjectPath: "./EST.MIT.Events.Function.Test/EST.MIT.Events.Function.Test.csproj"
       manifestPath: "./EST.MIT.Events.Function/obj/project.assets.json"
-      frameworkVersion: "6.x"
+      frameworkVersion: "8.x"
       imageRepoName: "rpa-mit-events"
     appTestConfig:
       testFilePath: "./docker-compose.test.yaml"
