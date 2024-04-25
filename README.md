@@ -102,18 +102,26 @@ docker compose up
 ---
 ## Usage / Endpoints
 
-### Queue
+- ### Event Creation
+	Function Trigger: ServiceBusTrigger
+	#### Endpoint
+	Uses the Service Bus queue trigger named from the environment variable `%EventQueueName%` 
+	#### Action
+	Receives event messages, validates them, and processes them into the system. Valid event data is transformed into event entities and stored. Errors and validations are logged appropriately.
+	
+	Below is an **encoded** example message that can be added to the service bus queue to test functionality. Json messages format must be encoded as base64 to be accepted.
+	
+	```base64
+	ewoJIm5hbWUiOiAiQ3JlYXRlIEludm9pY2UiLAoJInByb3BlcnRpZXMiOiB7CgkJImlkIjogIjEyMzQ1Njc4OTAiLAoJCSJjaGVja3BvaW50IjogImVzdC5pbnZvaWNlLndlYiIsCgkJInN0YXR1cyI6ICJBcHByb3ZhbFJlcXVpcmVkIiwKCQkiYWN0aW9uIjogewoJCQkidHlwZSI6ICJhcHByb3ZhbCIsCgkJCSJtZXNzYWdlIjogIkludm9pY2UgcmVxdWlyZXMgYXBwcm92YWwiLAoJCQkidGltZXN0YW1wIjogIjIwMjMtMDItMTRUMTU6MDA6MDAuMDAwWiIsCgkJCSJkYXRhIjogIlNvbWUgZGF0YSIKCQl9Cgl9Cn0=
+	```
 
-Below is an **encoded** example message that can be added to the service bus queue to test functionality. Json messages format must be encoded as base64 to be accepted.
-
-```base64
-ewoJIm5hbWUiOiAiQ3JlYXRlIEludm9pY2UiLAoJInByb3BlcnRpZXMiOiB7CgkJImlkIjogIjEyMzQ1Njc4OTAiLAoJCSJjaGVja3BvaW50IjogImVzdC5pbnZvaWNlLndlYiIsCgkJInN0YXR1cyI6ICJBcHByb3ZhbFJlcXVpcmVkIiwKCQkiYWN0aW9uIjogewoJCQkidHlwZSI6ICJhcHByb3ZhbCIsCgkJCSJtZXNzYWdlIjogIkludm9pY2UgcmVxdWlyZXMgYXBwcm92YWwiLAoJCQkidGltZXN0YW1wIjogIjIwMjMtMDItMTRUMTU6MDA6MDAuMDAwWiIsCgkJCSJkYXRhIjogIlNvbWUgZGF0YSIKCQl9Cgl9Cn0=
-```
-### HTTP
-
-A HTTP endpoint is available in this function to retrieve an invoices history. 
-
-```
-/api/invoice/events/{invoiceId}
-```
-
+- ### Event Retrieval
+	Function Trigger: HttpTrigger
+	
+	#### Endpoint
+	```http
+	GET /invoice/events/{invoiceId}
+	```
+	
+	#### Action
+	Retrieves all events related to a specific invoice based on the provided invoice ID. The events are fetched from a storage service and returned to the requester. If no events are found, a 404 response is returned.
