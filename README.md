@@ -1,81 +1,116 @@
-# Introduction
-This repository contains the code for consuming events for invoices
+# Events
 
-# Getting Started
+This repository contains an azure function with Service Bus and a HTTP Triggers, the messages to the service bus are sent via other services, it's use is as a method of logging what actions have taken place on a manual invoice.
 
-## Azurite
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=coverage)](https://sonarcloud.io/summary/new_code?id=est-mit-events) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=est-mit-events&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=est-mit-events)
+## Requirements
 
-Follow the following guide to setup Azurite:
+Amend as needed for your distribution, this assumes you are using windows with WSL.
+- <details>
+    <summary> .NET 8 SDK </summary>
+    
+    #### Basic instructions for installing the .NET 8 SDK on a debian based system.
+  
+    Amend as needed for your distribution.
 
-- [Azurite emulator for local Azure Storage development](https://dev.azure.com/defragovuk/DEFRA-EST/_wiki/wikis/DEFRA-EST/7722/Azurite-emulator-for-local-Azure-Storage-development)
+    ```bash
+    wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+    sudo dpkg -i packages-microsoft-prod.deb
+    sudo apt-get update && sudo apt-get install -y dotnet-sdk-8.0
+    ```
+</details>
 
-- [Docker](https://dev.azure.com/defragovuk/DEFRA-EST/_wiki/wikis/DEFRA-EST/9601/Azurite-with-Docker)
+- <details>
+    <summary> Azure Functions Core Tools </summary>
+    
+    ```bash
+    sudo apt-get install azure-functions-core-tools-4
+    ```
+</details>
 
-## Storage
+- [Docker](https://docs.docker.com/desktop/install/linux-install/)
+- Service Bus Queue
 
-The function app uses Azure Storage for Table and Queue.
+---
+## Local Setup
 
-The function app requires:
+To run this service locally complete the following steps.
+### Create Local Settings
 
-- Queue name: `event`
-- Table name: `event`
+Create a local.setttings.json file with the following content.
 
-## local.settings
-
-```
+```json
 {
     "IsEncrypted": false,
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-        "QueueConnectionString": "UseDevelopmentStorage=true",
-        "TableConnectionString": "UseDevelopmentStorage=true"
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
     }
 }
 ```
 
-## Queue
+### Set up user secrets
 
-### Message Example
+Use the secrets-template to create a "secrets.json" in the same folder location.
 
-```
-{
-	"name": "Create Invoice",
-	"properties": {
-		"id": "1234567890",
-		"checkpoint": "est.invoice.web",
-		"status": "ApprovalRequired",
-		"action": {
-			"type": "approval",
-			"message": "Invoice requires approval",
-			"timestamp": "2023-02-14T15:00:00.000Z",
-			"data": "Some data"
-		}
-	}
-}
+Once this is done run the following command to add the projects user secrets
+
+```bash
+cat secrets.json | dotnet user-secrets set
 ```
 
-## HTTP
+These values can also be added to the local settings file, but the preferred method is via user secrets.
 
-### Endpoint
+### Create emulated table storage
 
-`/api/invoice/events/{invoiceId}`
+You need to create a local emulation of azure table storage, this can be done using [azurite](https://github.com/Azure/Azurite).
 
-### Response
+In your console run the following commands.
 
+```bash
+docker pull mcr.microsoft.com/azure-storage/azurite
 ```
-[{"odata.etag":"W/\"datetime'2023-03-22T11%3A55%3A44.4792631Z'\"","PartitionKey":"1234567890","RowKey":"1234567890_20230322115544","Data":"{\"invoiceId\":\"123456789\",\"notificationType\":\"approval\",\"emailAddress\":\"test@test.com\",\"requestBy\":\"Geoff\"}","EventType":"approval","Timestamp":"2023-03-22T11:55:44.4792631+00:00"}]
+
+```bash
+docker run --name azurite -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite
 ```
 
-# Build and Test
-To run the function:
+You can view the emulated storage using a tool such as [Azure Storage Explorer](https://github.com/microsoft/AzureStorageExplorer).
+### Startup
 
-`cd EST.MIT.InvoiceImporter.Function`
+To start the function locally.
 
-`func start`
+```bash
+func start
+```
 
-## Useful links
+If running multiple function apps locally you might encounter a port conflict error as they all try to run on port 7071. If this happens use a command such as this entering a port that is free.
 
-- [gov Notify](https://www.notifications.service.gov.uk/using-notify/api-documentation)
+```bash
+func start --port 7072
+```
 
-- [Use dependency injection in .NET Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-dotnet-dependency-injection)
+---
+## Usage / Endpoints
+
+### Event Creation
+>Function Trigger: ServiceBusTrigger
+>#### Endpoint
+>Uses the Service Bus queue trigger named from the environment variable `%EventQueueName%` 
+>#### Action
+>Receives event messages, validates them, and processes them into the system. Valid event data is transformed into event entities and stored. Errors and validations are logged appropriately.
+>
+>Below is an **encoded** example message that can be added to the service bus queue to test functionality. Json messages format must be encoded as base64 to be accepted.
+>
+>```base64
+>ewoJIm5hbWUiOiAiQ3JlYXRlIEludm9pY2UiLAoJInByb3BlcnRpZXMiOiB7CgkJImlkIjogIjEyMzQ1Njc4OTAiLAoJCSJjaGVja3BvaW50IjogImVzdC5pbnZvaWNlLndlYiIsCgkJInN0YXR1cyI6ICJBcHByb3ZhbFJlcXVpcmVkIiwKCQkiYWN0aW9uIjogewoJCQkidHlwZSI6ICJhcHByb3ZhbCIsCgkJCSJtZXNzYWdlIjogIkludm9pY2UgcmVxdWlyZXMgYXBwcm92YWwiLAoJCQkidGltZXN0YW1wIjogIjIwMjMtMDItMTRUMTU6MDA6MDAuMDAwWiIsCgkJCSJkYXRhIjogIlNvbWUgZGF0YSIKCQl9Cgl9Cn0=
+>```
+
+### Event Retrieval
+>Function Trigger: HttpTrigger
+>#### Endpoint
+>```http
+>GET /invoice/events/{invoiceId}
+>```
+>#### Action
+>Retrieves all events related to a specific invoice based on the provided invoice ID. The events are fetched from a storage service and returned to the requester. If no events are found, a 404 response is returned.
