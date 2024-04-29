@@ -1,4 +1,4 @@
-# est-mit-events
+# Events
 
 This repository contains an azure function with Service Bus and a HTTP Triggers, the messages to the service bus are sent via other services, it's use is as a method of logging what actions have taken place on a manual invoice.
 
@@ -51,7 +51,7 @@ Create a local.setttings.json file with the following content.
 
 ### Set up user secrets
 
-Use the secrets-template to create a "secrets.json" in the same folder location as the [EST.MIT.Events.Function.csproj](EST.MIT.Events.Function/EST.MIT.Events.Function.csproj) file.
+Use the secrets-template to create a "secrets.json" in the same folder location.
 
 Once this is done run the following command to add the projects user secrets
 
@@ -88,15 +88,6 @@ If running multiple function apps locally you might encounter a port conflict er
 
 ```bash
 func start --port 7072
-```
-
----
-## Running in Docker
-
-To create the application as a docker container run the following command in the parent directory.
-
-```bash
-docker compose up
 ```
 
 ---
